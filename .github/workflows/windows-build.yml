@@ -1,0 +1,27 @@
+name: Windows EXE Keszitese
+
+# Ez mondja meg, hogy minden feltöltésnél (push) induljon el a folyamat
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    # Kérünk egy virtuális Windows gépet a GitHubtól
+    runs-on: windows-latest
+
+    steps:
+    - name: Kod letoltese a szerverre
+      uses: actions/checkout@v4
+
+    - name: CMake konfiguralasa
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Program leforditasa (Kompilalas)
+      run: cmake --build build --config Release
+
+    - name: Kesz .exe fajl menteshe es feltoltese
+      uses: actions/upload-artifact@v4
+      with:
+        name: TerminalJack-Windows-EXE
+        path: build/Release/Blackjack.exe
