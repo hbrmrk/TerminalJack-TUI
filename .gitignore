@@ -1,0 +1,12 @@
+# Fordítási mappák
+build/
+cmake-build-*/
+out/
+
+# IDE beállítások (CLion)
+.idea/
+
+# Futtatható fájlok
+*.exe
+*.out
+*.app
