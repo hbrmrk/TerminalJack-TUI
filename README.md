@@ -1,6 +1,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 # 🃏 TerminalJack-TUI
+![Build Status](https://github.com/hbrmrk/TerminalJack-TUI/actions/workflows/windows-build.yml/badge.svg)
 
 A sleek, cross-platform **Blackjack** game built with **C++20** and the **FTXUI** library. Experience a modern, graphical-style card game directly in your terminal!
 
