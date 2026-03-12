@@ -1,27 +1,35 @@
-name: Windows EXE Keszitese
+name: Multi-Platform Build
 
-# Ez mondja meg, hogy minden feltöltésnél (push) induljon el a folyamat
 on:
   push:
     branches: [ "main" ]
 
 jobs:
   build:
-    # Kérünk egy virtuális Windows gépet a GitHubtól
-    runs-on: windows-latest
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # Itt adjuk meg a három operációs rendszert
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
-    - name: Kod letoltese a szerverre
+    - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: CMake konfiguralasa
+    - name: Configure CMake
+      # A -G "Unix Makefiles" csak Linuxon és Macen kell, Windowson hagyjuk az alapértelmezettet
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release
 
-    - name: Program leforditasa (Kompilalas)
+    - name: Build project
       run: cmake --build build --config Release
 
-    - name: Kesz .exe fajl menteshe es feltoltese
+    - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: TerminalJack-Windows-EXE
-        path: build/Release/Blackjack.exe
+        name: TerminalJack-${{ matrix.os }}
+        # Ez a trükkös rész: Windowson .exe, a többin nincs kiterjesztés
+        path: |
+          build/Blackjack
+          build/Blackjack.exe
+          build/Release/Blackjack.exe
